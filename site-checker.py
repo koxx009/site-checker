@@ -3,12 +3,15 @@
 import requests
 import argparse
 import subprocess
+import os
 import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument('endpoint', type=str, help='enter your URL')
 arg_dict = parser.parse_args()
 arg_endpoint = arg_dict.endpoint
+
+cwd = (os.path.dirname(os.path.realpath(__file__)))
 
 try:
     r = requests.get(arg_endpoint, timeout=10)
@@ -35,5 +38,5 @@ else:
 if ans_status != 200:
 	tg_message = '"' + "URL: " + str(arg_endpoint) + "\nHTTP Code: " + str(ans_status) + "\nResponse time: " + str(ans_time) + "\nCheck counter: " + str(check_cnt) +'"'
 	tg_sent = "./telega.sh " + str(tg_message)
-	subprocess.run(tg_sent, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+	subprocess.run(tg_sent, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, cwd=cwd)
 pass
