@@ -14,11 +14,17 @@ arg_endpoint = arg_dict.endpoint
 cwd = (os.path.dirname(os.path.realpath(__file__)))
 
 try:
-    r = requests.get(arg_endpoint, timeout=10)
+    r = requests.get(arg_endpoint, timeout=60)
 except requests.exceptions.RequestException as e:
 	ans_status = 'Connection error'
-	ans_time = '10'
+	ans_time = '60'
 	check_cnt = 1
+	try:
+	    r = requests.get(arg_endpoint, timeout=60)
+	except requests.exceptions.RequestException as e:
+		ans_status = 'Connection error'
+		ans_time = '120'
+		check_cnt = 2
 else:
 	i = 0
 	while i < 2:
